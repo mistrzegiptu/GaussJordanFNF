@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 internal class InputParser
 {
-    public static (Matrix, Vector) ParseFile(string filePath)
+    public static EquationMatrix ParseFile(string filePath)
     {
         var lines = File.ReadAllLines(filePath);
 
@@ -17,7 +17,7 @@ internal class InputParser
         var matrix = ParseMatrix(lines.Skip(1).Take(n), n);
         var vector = ParseVector(lines.Skip(n + 1).Take(1), n);
 
-        return (new Matrix(matrix), new Vector(vector));
+        return new EquationMatrix(matrix, vector);
     }
 
     private static double[,] ParseMatrix(IEnumerable<string> lines, int n)

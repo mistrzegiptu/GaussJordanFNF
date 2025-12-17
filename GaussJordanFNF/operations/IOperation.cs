@@ -9,7 +9,6 @@ namespace GaussJordanFNF.operations
         int I { get; }
         int K { get; }
 
-        public Matrix Execute(Matrix matrix);
-        public Vector Execute(Vector vector);
+        public void Execute(EquationMatrix matrix);
     }
 }

@@ -6,11 +6,18 @@ namespace GaussJordanFNF.operations
 {
     internal class MulElementOperation : IOperation
     {
-        public int I => throw new NotImplementedException();
-        public int J => throw new NotImplementedException();
-        public int K => throw new NotImplementedException();
+        public int I { get; }
+        public int J { get; }
+        public int K { get; }
 
-        public void Execute()
+        public MulElementOperation(int i, int j, int k)
+        {
+            I = i;
+            J = j;
+            K = k;
+        }
+
+        public void Execute(EquationMatrix matrix)
         {
             throw new NotImplementedException();
         }

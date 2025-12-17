@@ -6,16 +6,16 @@ namespace GaussJordanFNF.operations
 {
     internal class FindCommonMulOperation : IOperation
     {
-        public int I => throw new NotImplementedException();
+        public int I { get; }
+        public int K { get; }
 
-        public int K => throw new NotImplementedException();
-
-        public void Execute(Matrix matrix)
+        public FindCommonMulOperation(int i, int k)
         {
-            throw new NotImplementedException();
+            I = i;
+            K = k;
         }
 
-        public Vector Execute(Vector vector)
+        public void Execute(EquationMatrix matrix)
         {
             throw new NotImplementedException();
         }
