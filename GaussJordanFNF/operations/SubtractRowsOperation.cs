@@ -17,9 +17,30 @@ namespace GaussJordanFNF.operations
             K = k;
         }
 
-        public void Execute(EquationMatrix matrix)
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            return $"C(I={I+1}, J={J+1}, K={K+1})";
+        }
+
+        public bool IsDependent(IOperation other)
+        {
+            if(other is FindCommonMulOperation o)
+            {
+                if (o.I == I || o.K == K)
+                    return true;
+            }
+            else if(other is MulElementOperation meo)
+            {
+                if (meo.I == I || meo.K == K)
+                    return true;
+            }
+            else if(other is SubtractRowsOperation sro)
+            {
+                if (sro.I == I || sro.K == K)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

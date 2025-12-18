@@ -26,7 +26,7 @@ internal class InputParser
 
         for (int i = 0; i < n; i++)
             for(int j = 0; j < n; j++)
-                matrix[i, j] = double.Parse(lines.ElementAt(i).Split(' ')[j]);
+                matrix[i, j] = double.Parse(lines.ElementAt(i).Split(' ')[j], System.Globalization.CultureInfo.InvariantCulture);
 
         return matrix;
     }
@@ -35,7 +35,7 @@ internal class InputParser
     {
         var vector = new double[n];
 
-        var parsedLine = line.Select(x => double.Parse(x, System.Globalization.CultureInfo.InvariantCulture)).ToList();
+        var parsedLine = line.First().Split(' ').Select(x => double.Parse(x, System.Globalization.CultureInfo.InvariantCulture)).ToList();
         for (int i = 0; i < n; i++)
                 vector[i] = parsedLine[i];
 

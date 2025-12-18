@@ -9,6 +9,11 @@ namespace GaussJordanFNF.operations
         int I { get; }
         int K { get; }
 
-        public void Execute(EquationMatrix matrix);
+        public void Execute(EquationMatrix matrix)
+        {
+            matrix.Execute(this);
+        }
+
+        bool IsDependent(IOperation other);
     }
 }
