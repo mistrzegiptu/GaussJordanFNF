@@ -4,6 +4,9 @@ using System.Text;
 
 namespace GaussJordanFNF.operations
 {
+    /// <summary>
+    /// Represents an C matrix operation.
+    /// </summary>
     internal class SubtractRowsOperation : IOperation
     {
         public int I { get; }
@@ -31,12 +34,12 @@ namespace GaussJordanFNF.operations
             }
             else if(other is MulElementOperation meo)
             {
-                if (meo.I == I || meo.K == K)
+                if (meo.J == J)
                     return true;
             }
             else if(other is SubtractRowsOperation sro)
             {
-                if (sro.I == I || sro.K == K)
+                if (sro.I == I && sro.J == J && sro.K == K)
                     return true;
             }
 

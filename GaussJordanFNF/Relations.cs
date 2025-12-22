@@ -8,17 +8,26 @@ namespace GaussJordanFNF
     internal class Relations
     {
         private readonly List<IOperation> _operations;
-        public List<(IOperation, IOperation)> DependentOperations { get; private set; }
+        public HashSet<(IOperation, IOperation)> DependentOperations { get; private set; } = [];
 
         public Relations(List<IOperation> operations)
         {
-            _operations = operations;
+            _operations = operations ?? throw new ArgumentException(nameof(Relations));
             BuildRelations();
         }
 
-        public void BuildRelations()
+        private void BuildRelations()
         {
-            DependentOperations = new List<(IOperation, IOperation)>();
+            DependentOperations = [];
+
+            BuildbasicRelations();
+            BuildReflexiveRelations();
+            BuildTransitiveRelations();
+            BuildSymmetricRelations();
+        }
+        
+        private void BuildbasicRelations()
+        {
             for (int i = 0; i < _operations.Count; i++)
             {
                 for (int j = i + 1; j < _operations.Count; j++)
@@ -29,6 +38,37 @@ namespace GaussJordanFNF
                     }
                 }
             }
+        }
+
+        private void BuildReflexiveRelations()
+        {
+            foreach (var operation in _operations)
+                DependentOperations.Add((operation, operation));
+        }
+
+        private void BuildTransitiveRelations()
+        {
+            foreach(var operation in _operations)
+            {
+                foreach(var leftOperation in DependentOperations.Where(o => o.Item1 == operation))
+                {
+                    foreach (var rightOperation in DependentOperations.Where(o => o.Item1 == leftOperation.Item1))
+                    {
+                        DependentOperations.Add((leftOperation.Item1, rightOperation.Item2));
+                    }
+                }
+
+            }
+        }
+
+        private void BuildSymmetricRelations()
+        {
+            var toAdd = new HashSet<(IOperation, IOperation)>();
+
+            foreach(var operation in DependentOperations)
+                toAdd.Add((operation.Item2, operation.Item1));
+
+            DependentOperations.UnionWith(toAdd);
         }
     }
 }

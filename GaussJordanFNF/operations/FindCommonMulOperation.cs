@@ -4,6 +4,9 @@ using System.Text;
 
 namespace GaussJordanFNF.operations
 {
+    /// <summary>
+    /// Represents an A matrix operation.
+    /// </summary>
     internal class FindCommonMulOperation : IOperation
     {
         public int I { get; }
@@ -24,7 +27,7 @@ namespace GaussJordanFNF.operations
         {
             if(other is FindCommonMulOperation o)
             {
-                if (o.I == I || o.K == K)
+                if (o.I == I && o.K == K)
                     return true;
             }
             else if(other is MulElementOperation meo)
