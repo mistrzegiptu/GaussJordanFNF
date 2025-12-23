@@ -1,18 +1,13 @@
-﻿using GaussJordanFNF.operations;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GaussJordanFNF
+﻿namespace GaussJordanFNF
 {
-    internal class Relations
+    internal class Relations<T> where T: IRelatable
     {
-        private readonly List<IOperation> _operations;
-        public HashSet<(IOperation, IOperation)> DependentOperations { get; private set; } = [];
+        private readonly List<T> _operations;
+        public HashSet<(T, T)> DependentOperations { get; private set; } = [];
 
-        public Relations(List<IOperation> operations)
+        public Relations(List<T> operations)
         {
-            _operations = operations ?? throw new ArgumentException(nameof(Relations));
+            _operations = operations ?? throw new ArgumentException(nameof(Relations<T>));
             BuildRelations();
         }
 
@@ -50,9 +45,9 @@ namespace GaussJordanFNF
         {
             foreach(var operation in _operations)
             {
-                foreach(var leftOperation in DependentOperations.Where(o => o.Item1 == operation))
+                foreach(var leftOperation in DependentOperations.Where(o => o.Item1.Equals(operation)))
                 {
-                    foreach (var rightOperation in DependentOperations.Where(o => o.Item1 == leftOperation.Item1))
+                    foreach (var rightOperation in DependentOperations.Where(o => o.Item1.Equals(leftOperation.Item1)))
                     {
                         DependentOperations.Add((leftOperation.Item1, rightOperation.Item2));
                     }
@@ -63,7 +58,7 @@ namespace GaussJordanFNF
 
         private void BuildSymmetricRelations()
         {
-            var toAdd = new HashSet<(IOperation, IOperation)>();
+            var toAdd = new HashSet<(T, T)>();
 
             foreach(var operation in DependentOperations)
                 toAdd.Add((operation.Item2, operation.Item1));

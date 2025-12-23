@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using GaussJordanFNF.operations;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace FoataNormalForm
+namespace GaussJordanFNF
 {
     internal static class MazurkiewiczGraphExtensions
     {
-        public static string ToDotFormat(this MazurkiewiczGraph graph)
+        public static string ToDotFormat(this MazurkiewiczGraph<IRelatable> graph)
         {
             var sb = new StringBuilder();
 
@@ -32,15 +29,15 @@ namespace FoataNormalForm
             return sb.ToString();
         }
 
-        public static FoataNormalForm ToFoataNormalForm(this MazurkiewiczGraph graph)
+        public static FoataNormalForm<IRelatable> ToFoataNormalForm(this MazurkiewiczGraph<IOperation> graph)
         {
-            var foataNormalForm = new FoataNormalForm();
+            var foataNormalForm = new FoataNormalForm<IRelatable>();
 
             while (graph.Vertices.Count > 0)
             {
                 var unconnectedVertices = graph.Vertices.Where(v => v.IncomingVertices.Count == 0);
 
-                foataNormalForm.AddGroup(unconnectedVertices.Select(v => v.Data).ToHashSet());
+                foataNormalForm.AddGroup(unconnectedVertices.Select(v => v.Data).Cast<IRelatable>().ToHashSet());
 
                 graph.RemoveVertices(unconnectedVertices.ToList());
             }

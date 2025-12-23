@@ -1,18 +1,18 @@
-﻿using GaussJordanFNF.operations;
+﻿using GaussJordanFNF;
 
 namespace FoataNormalForm
 {
-    internal class Vertex
+    internal class Vertex <T> where T : IRelatable
     {
         public int Id { get; }
-        public IOperation Data { get; }
-        private readonly List<Vertex> _connectedVertices;
-        private readonly List<Vertex> _incomingVertices;
+        public T Data { get; }
+        private readonly List<Vertex<T>> _connectedVertices;
+        private readonly List<Vertex<T>> _incomingVertices;
 
-        public List<Vertex> ConnectedVertices => [.._connectedVertices];
-        public List<Vertex> IncomingVertices => [.._incomingVertices];
+        public List<Vertex<T>> ConnectedVertices => [.._connectedVertices];
+        public List<Vertex<T>> IncomingVertices => [.._incomingVertices];
 
-        public Vertex(int id, IOperation data)
+        public Vertex(int id, T data)
         {
             Id = id;
             Data = data;
@@ -20,7 +20,7 @@ namespace FoataNormalForm
             _incomingVertices = [];
         }
 
-        public void ConnectVertex(Vertex vertex)
+        public void ConnectVertex(Vertex<T> vertex)
         {
             _connectedVertices.Add(vertex);
             vertex._incomingVertices.Add(this);

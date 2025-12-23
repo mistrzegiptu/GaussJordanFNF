@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GaussJordanFNF.operations
+﻿namespace GaussJordanFNF.operations
 {
-    internal interface IOperation
+    internal interface IOperation : IRelatable
     {
         int I { get; }
         int K { get; }
@@ -13,7 +9,5 @@ namespace GaussJordanFNF.operations
         {
             matrix.Execute(this);
         }
-
-        bool IsDependent(IOperation other);
     }
 }

@@ -1,37 +1,25 @@
 ﻿using GaussJordanFNF.operations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GaussJordanFNF
 {
     internal class Scheduler
     {
-        private Queue<HashSet<IOperation>> operationsQueue;
-        public Scheduler()
+        private readonly List<HashSet<IRelatable>> _operationsFoata;
+        public Scheduler(List<HashSet<IRelatable>> operationsFoata)
         {
-            operationsQueue = new Queue<HashSet<IOperation>>();
+            _operationsFoata = operationsFoata ?? throw new ArgumentException(nameof(Scheduler));
         }
-        public void EnqueueOperation(HashSet<IOperation> parallelOperations)
-        {
-            operationsQueue.Enqueue(parallelOperations);
-        }
+
         public void ExecuteAll(EquationMatrix matrix)
         {
-            while (operationsQueue.Count > 0)
+            foreach(var parallelOperations in _operationsFoata)
             {
-                var operations = operationsQueue.Dequeue();
                 var tasks = new List<Task>();
 
-                foreach (var item in operations)
+                foreach (var item in parallelOperations.Cast<IOperation>())
                 {
                     tasks.Add(Task.Run(() => item.Execute(matrix)));
                 }
-
-                //Parallel.ForEach(operations, operation =>
-                //{
-                //    operation.Execute(matrix);
-                //});
 
                 try
                 {

@@ -1,18 +1,18 @@
-﻿using GaussJordanFNF.operations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace FoataNormalForm
+namespace GaussJordanFNF
 {
-    internal class FoataNormalForm
+    internal class FoataNormalForm<T> where T : IRelatable
     {
         private readonly string _wordLabel = "w";
-        public List<HashSet<IOperation>> _form = [];
+        private List<HashSet<T>> _form = [];
+        public List<HashSet<T>> Form
+        {
+            get { return [.. _form]; }
+        }
 
-        public void AddGroup(HashSet<IOperation> group)
+
+        public void AddGroup(HashSet<T> group)
         {
             _form.Add(group);
         }
@@ -28,9 +28,11 @@ namespace FoataNormalForm
                 foreach (var label in group)
                 {
                     sb.Append(label);
+                    sb.Append(", ");
                 }
+                sb.Remove(sb.Length - 2, 2);
 
-                sb.Append(']');
+                sb.Append("]\n");
             }
 
             return sb.ToString();

@@ -1,33 +1,26 @@
-﻿using GaussJordanFNF;
-using GaussJordanFNF.operations;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FoataNormalForm;
 
-namespace FoataNormalForm
+namespace GaussJordanFNF
 {
-    internal class MazurkiewiczGraph
+    internal class MazurkiewiczGraph<T> where T : IRelatable
     {
-        private readonly List<Vertex> _vertices = [];
+        private readonly List<Vertex<T>> _vertices = [];
 
-        public List<Vertex> Vertices => [.._vertices];
+        public List<Vertex<T>> Vertices => [.._vertices];
 
-        public MazurkiewiczGraph(List<Vertex> vertices)
+        public MazurkiewiczGraph(List<Vertex<T>> vertices)
         {
             _vertices = vertices;
         }
 
         public MazurkiewiczGraph() { }
 
-        public void BuildGraph(List<IOperation> word, Relations relations)
+        public void BuildGraph(List<T> word, Relations<T> relations)
         {
             _vertices.Clear();
 
             for(int i = 0; i < word.Count; i++)
-                _vertices.Add(new Vertex(i, word[i]));
+                _vertices.Add(new Vertex<T>(i, word[i]));
 
             for (int step = 1; step < word.Count - 1; step++)
             {
@@ -45,12 +38,12 @@ namespace FoataNormalForm
             }
         }
 
-        private static bool AreConnected(Vertex vertexA, Vertex vertexB)
+        private static bool AreConnected(Vertex<T> vertexA, Vertex<T> vertexB)
         {
             return DfsSearch(vertexA, vertexB, []);
         }
 
-        private static bool DfsSearch(Vertex current, Vertex target, HashSet<Vertex> visited)
+        private static bool DfsSearch(Vertex<T> current, Vertex<T> target, HashSet<Vertex<T>> visited)
         {
             if(visited.Contains(current)) 
                 return false;
@@ -63,7 +56,7 @@ namespace FoataNormalForm
             return current.ConnectedVertices.Any(neighbour => DfsSearch(neighbour, target, visited)); //Who even needs python anymore?
         }
 
-        public void RemoveVertices(List<Vertex> verticesToRemove)
+        public void RemoveVertices(List<Vertex<T>> verticesToRemove)
         {
             foreach (var vertex in verticesToRemove)
             {

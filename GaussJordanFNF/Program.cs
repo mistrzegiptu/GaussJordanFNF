@@ -1,26 +1,28 @@
-﻿// See https://aka.ms/new-console-template for more 
-
-using FoataNormalForm;
-using GaussJordanFNF;
+﻿using GaussJordanFNF;
+using GaussJordanFNF.operations;
 
 var matrix = InputParser.ParseFile("../../../in.txt");
 
 var operations = matrix.GaussJordanOperations();
 
-var relations = new Relations(operations);
+var relations = new Relations<IOperation>(operations);
 
-foreach (var op in operations)
-{
-    Console.WriteLine(op);
-}
-
-foreach(var rel in relations.DependentOperations)
-    Console.WriteLine($"Dependent: {rel.Item1} <-> {rel.Item2}");
-
-var graph = new MazurkiewiczGraph();
+var graph = new MazurkiewiczGraph<IOperation>();
 graph.BuildGraph(operations, relations);
 
-Console.WriteLine(graph.ToFoataNormalForm());
+var foataNormalForm = graph.ToFoataNormalForm();
 
-Console.WriteLine("Dupa");
+var scheduler = new Scheduler(foataNormalForm.Form);
+
+scheduler.ExecuteAll(matrix);
+
+matrix.NormalizeMatrix();
+
+Console.WriteLine(foataNormalForm);
+
+Console.WriteLine(matrix);
+
+File.WriteAllText("../../../out.txt", matrix.ToString());
+
+//Console.WriteLine("Dupa");
 

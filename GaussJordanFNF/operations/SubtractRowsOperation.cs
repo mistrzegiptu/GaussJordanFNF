@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GaussJordanFNF.operations
+﻿namespace GaussJordanFNF.operations
 {
     /// <summary>
     /// Represents an C matrix operation.
@@ -25,21 +21,21 @@ namespace GaussJordanFNF.operations
             return $"C(I={I+1}, J={J+1}, K={K+1})";
         }
 
-        public bool IsDependent(IOperation other)
+        public bool IsDependent(IRelatable other)
         {
             if(other is FindCommonMulOperation o)
             {
-                if (o.I == I || o.K == K)
+                if (o.I == J && I + 1 == o.I && (K + 1 == o.K || K == o.K))
                     return true;
             }
             else if(other is MulElementOperation meo)
             {
-                if (meo.J == J)
+                if(meo.I == I + 1 && meo.J == J && meo.K == K + 1)
                     return true;
             }
             else if(other is SubtractRowsOperation sro)
             {
-                if (sro.I == I && sro.J == J && sro.K == K)
+                if (sro.I == I + 1 && sro.J == J && sro.K == K)
                     return true;
             }
 
