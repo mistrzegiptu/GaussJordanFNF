@@ -5,7 +5,7 @@ namespace GaussJordanFNF
 {
     internal static class MazurkiewiczGraphExtensions
     {
-        public static string ToDotFormat(this MazurkiewiczGraph<IRelatable> graph)
+        public static string ToDotFormat(this MazurkiewiczGraph<IOperation> graph)
         {
             var sb = new StringBuilder();
 

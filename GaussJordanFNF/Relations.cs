@@ -15,13 +15,13 @@
         {
             DependentOperations = [];
 
-            BuildbasicRelations();
+            BuildBasicRelations();
             BuildReflexiveRelations();
             BuildTransitiveRelations();
             BuildSymmetricRelations();
         }
         
-        private void BuildbasicRelations()
+        private void BuildBasicRelations()
         {
             for (int i = 0; i < _operations.Count; i++)
             {

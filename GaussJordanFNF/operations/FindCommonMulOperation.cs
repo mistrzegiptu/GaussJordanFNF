@@ -16,7 +16,7 @@
 
         public override string ToString()
         {
-            return $"A(I={I+1}, K={K+1})";
+            return $"A({I+1}, {K+1})";
         }
 
         public bool IsDependent(IRelatable other)
